@@ -5,10 +5,10 @@
     <div>
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/home' }">Home</el-breadcrumb-item>
-            <el-breadcrumb-item>Promotion Management</el-breadcrumb-item>
-            <el-breadcrumb-item>Promotion List</el-breadcrumb-item>
-          </el-breadcrumb>
-          <el-card>
+            <el-breadcrumb-item>Users Management</el-breadcrumb-item>
+            <el-breadcrumb-item>Users List</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-card>
               <!-- 头部搜索及添加功能，element内置的gutter表示列与列之间的间隙 span表示列自己的宽度 -->
               <el-row :gutter=30>
                   <el-col :span=7>
@@ -39,7 +39,7 @@
                     <!-- 使用作用域插槽，取得后台返回的当前的id，才能进行下一步操作 -->
                     <template slot-scope="scope">
                       <el-button type="primary" icon="el-icon-edit" size="small" @click="showEdit(scope.row.id)"></el-button>
-                      <el-button type="info" icon="el-icon-share" size="small"></el-button>
+                      <el-button type="info" icon="el-icon-share" size="small" @click="setRoles(scope.row)"></el-button>
                       <!-- el-tooltip是element内置功能，实现当鼠标移动到button是文本跳出提示该button的功能 -->
                       <el-tooltip effect="dark" content="Delete" placement="top" :enterable="false">
                         <el-button type="danger" icon="el-icon-delete" size="small" @click="removeUserById(scope.row.id)"></el-button>
@@ -57,9 +57,9 @@
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="total">
               </el-pagination>
-          </el-card>
+        </el-card>
           <!-- 用户点击 添加 后弹出的对话框默认状态在data里设置为false -->
-          <el-dialog
+        <el-dialog
            title="Add User"
            :visible.sync="addDialogVisible"
            width="50%"
@@ -84,9 +84,9 @@
            <!-- 点击确定，进行表单整体检验，然后提交访问后台 -->
            <el-button type="primary" @click="addUser">Confirm</el-button>
            </span>
-          </el-dialog>
+        </el-dialog>
           <!-- 用户点击 修改 后弹出对话框默认状态在data里为false -->
-          <el-dialog
+        <el-dialog
            title="Edit user"
            :visible.sync="editDialogVisiable"
            width="50%" @close="editClose">
@@ -105,7 +105,31 @@
            <el-button @click="editDialogVisiable = false">Cancel</el-button>
            <el-button type="primary" @click="editUserInfo">Confirm</el-button>
            </span>
-          </el-dialog>
+        </el-dialog>
+        <el-dialog
+          title="Reset Roles"
+          :visible.sync="setRolesDialogVisible"
+          width="50%"
+          @close="resetRoleDialogData">
+          <div>
+            <p>User: {{ userInfo.userName }}</p>
+            <p>Role: {{ userInfo.userRole }}</p>
+            <p>New Roles:
+              <el-select v-model="selectedRoleId" placeholder="Select">
+                <el-option
+                  v-for="item in rolesList"
+                  :key="item.id"
+                  :label="item.roleName"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </p>
+          </div>
+          <span slot="footer" class="dialog-footer">
+          <el-button @click="setRolesDialogVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="saveRoleInfo">Confirm</el-button>
+          </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -136,7 +160,8 @@ export default {
         // 默认每页显示10条记录
         pagesize: 10
       },
-      userlist: [],
+      // userlist应该接受保存服务器返回的数据，预定义为空，123为模拟数据
+      userlist: [1, 2, 3],
       total: 0,
       addDialogVisible: false,
       addForm: {
@@ -174,7 +199,11 @@ export default {
           { required: true, message: 'Please input phone', trigger: 'blur' },
           { validator: checkPhone, trigger: 'blur' }
         ]
-      }
+      },
+      setRolesDialogVisible: false,
+      userInfo: {},
+      rolesList: [],
+      selectedRoleId: ''
     }
   },
   created() {
@@ -266,6 +295,28 @@ export default {
       if (res.meta.status !== 200) { return this.$message.error('fail to remove user') }
       this.$message.success('successfully removal')
       this.getUserList()
+    },
+    // 点击button展开对话框，并把当前后台返回的全部role数据渲染在对话框里供用户进行修改
+    async setRoles(userInfo) {
+      this.setRolesDialogVisible = true
+      this.userInfo = userInfo
+      const { data: res } = await this.$http.get('roles')
+      if (res.meta.status !== 200) { return this.$message.error('fail to get role data') }
+      this.rolesList = res.data
+    },
+    // 点击confirm获取用户修改的数据并提交后台
+    async saveRoleInfo() {
+      if (!this.selectedRoleId) { return this.$message.error('Please select new role') }
+      const { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, { rid: this.selectedRoleId })
+      if (res.meta.status !== 200) { return this.$message.error('fail to update data') }
+      this.$message.success('update role successfully')
+      this.getUserList()
+      this.setRolesDialogVisible = false
+    },
+    // 监听对话框关闭事件，如果关闭需清空里面的旧数据
+    resetRoleDialogData() {
+      this.selectedRoleId = ''
+      this.userInfo = {}
     }
   }
 }
