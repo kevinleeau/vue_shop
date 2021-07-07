@@ -60,7 +60,7 @@
     <!-- el-aside是否整体折叠和istoggle绑定 -->
     <el-aside :width="isToggle ? '50px' : '250px'">
       <div class="toggle-button" @click="toggleMenu">
-        <i class="el-icon-s-operation"></i>
+        <i :class="isToggle ? 'el-icon-right' : 'el-icon-back'"></i>
       </div>
       <el-menu
       background-color="#384952"
