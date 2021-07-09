@@ -1,4 +1,4 @@
-<style lang="less">
+<style lang="less" scoped>
     .el-tag {
         margin: 7px
     }

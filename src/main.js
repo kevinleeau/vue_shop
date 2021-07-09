@@ -9,6 +9,7 @@ import './plugins/element.js'
 import './assets/css/global.css'
 import axios from 'axios'
 import locale from '../node_modules/element-ui/lib/locale/lang/en.js'
+import treeTable from 'vue-table-with-tree-grid'
 // 全局配置基本url
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 // axios请求拦截器
@@ -20,6 +21,7 @@ axios.interceptors.request.use(config => {
 Vue.use({ locale })
 Vue.prototype.$http = axios
 Vue.use(less)
+Vue.component('tree-table', treeTable)
 Vue.config.productionTip = false
 
 new Vue({
