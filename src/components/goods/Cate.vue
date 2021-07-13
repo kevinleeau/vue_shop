@@ -12,7 +12,7 @@
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/home' }">Home</el-breadcrumb-item>
             <el-breadcrumb-item>Goods Management</el-breadcrumb-item>
-            <el-breadcrumb-item>Goods List</el-breadcrumb-item>
+            <el-breadcrumb-item>Goods List (this component enable user to add goods catergory, origin data provided by server)</el-breadcrumb-item>
         </el-breadcrumb>
         <el-card>
             <el-row>
