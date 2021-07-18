@@ -19,3 +19,15 @@ min-width: 1366px;
 .el-pagination {
     margin-top: 15px;
 }
+/* 上下15，左右0 */
+.el-steps {
+    margin: 20px 0;
+    border-bottom: 1px solid rgb(50, 87, 199);
+}
+/* .el-step__title是element内置class属性 */
+.el-step__title {
+    font-size: 13px;
+}
+.ql-editor {
+    min-height: 300px;
+}

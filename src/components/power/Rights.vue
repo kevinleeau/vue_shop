@@ -1,4 +1,10 @@
 <style lang="less" scoped>
+/deep/.el-table th > .cell {
+  text-align: center;
+}
+/deep/.el-table .cell {
+  text-align: center;
+}
 </style>
 
 <template>

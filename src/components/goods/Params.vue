@@ -1,6 +1,6 @@
 <style lang="less" scoped>
     .firstRow {
-        margin: 15px;
+        margin: 15px 0;
     }
     .el-tag {
       margin: 10px;
@@ -8,6 +8,12 @@
     .input-new-tag {
       width: 120px;
     }
+    /deep/.el-table th > .cell {
+  text-align: center;
+}
+/deep/.el-table .cell {
+  text-align: center;
+}
 </style>
 
 <template>

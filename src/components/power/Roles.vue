@@ -12,6 +12,12 @@
         display: flex;
         align-items: center;
     }
+    /deep/.el-table th > .cell {
+  text-align: center;
+}
+/deep/.el-table .cell {
+  text-align: center;
+}
 </style>
 
 <template>
