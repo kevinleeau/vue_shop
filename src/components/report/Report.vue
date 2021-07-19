@@ -1,6 +1,6 @@
 <style lang="less" scoped>
 .printBtn {
-    background-color: #46607b;
+    background-color: #2e3a47;
     margin-top: 15px;
     border: none;
 }
@@ -22,7 +22,7 @@
         </div>
         <!-- npm install vue-print-nb --save -->
         <!-- import Print from 'vue-print-nb' & Vue.use(Print) at main.js -->
-        <el-button type="primary" v-print="'#qrCode'" class="printBtn">Print</el-button>
+        <el-button type="primary" v-print="'#qrCode'" class="printBtn">Print Report</el-button>
     </div>
 </template>
 
