@@ -15,6 +15,7 @@ import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css' // import styles
 import 'quill/dist/quill.snow.css' // for snow theme
 import 'quill/dist/quill.bubble.css' // for bubble theme
+import Print from 'vue-print-nb'
 // 全局配置基本url
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 // axios请求拦截器
@@ -24,6 +25,7 @@ axios.interceptors.request.use(config => {
 })
 // axios挂载在vue原型对象上
 Vue.use({ locale })
+Vue.use(Print)
 Vue.prototype.$http = axios
 Vue.use(less)
 Vue.component('tree-table', treeTable)

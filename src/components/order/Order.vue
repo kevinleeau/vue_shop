@@ -1,5 +1,4 @@
 <style lang="less" scoped>
-    /* table header and content center */
 /deep/.el-table th > .cell {
   text-align: center;
 }
